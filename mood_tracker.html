@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mood Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      form {
+        margin-bottom: 20px;
+      }
+
+      input,
+      select,
+      button {
+        padding: 8px;
+        margin-right: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table th,
+      table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+
+      table th {
+        background-color: #f4f4f4;
+      }
+
+      .dot {
+        height: 10px;
+        width: 10px;
+        background-color: red;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .delete-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .delete-btn:hover {
+        background-color: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Daily Mood Tracker</h1>
+    </header>
+    <h1>Mood Swings? We’ve Got the Stats!</h1>
+    <form id="moodForm">
+      <input type="text" id="username" placeholder="Enter username" required />
+      <select id="mood" required>
+        <option value="">Select Mood</option>
+        <option value="Happy">😊 Happy</option>
+        <option value="Sad">😢 Sad</option>
+        <option value="Excited">😄 Excited</option>
+        <option value="Angry">😡 Angry</option>
+      </select>
+      <button type="submit">Add Mood</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Mood</th>
+          <th>Recent</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="moodTableBody">
+        <!-- Rows will be dynamically added here -->
+      </tbody>
+    </table>
+
+    <script>
+      const moodForm = document.getElementById('moodForm');
+      const usernameInput = document.getElementById('username');
+      const moodInput = document.getElementById('mood');
+      const moodTableBody = document.getElementById('moodTableBody');
+
+      // Load moods from localStorage
+      let moodData = JSON.parse(localStorage.getItem('moodData')) || [];
+
+      function saveToLocalStorage() {
+        localStorage.setItem('moodData', JSON.stringify(moodData));
+      }
+
+      function renderTable() {
+        moodTableBody.innerHTML = '';
+        moodData.forEach((entry, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+          <td>${entry.username}</td>
+          <td>${entry.mood}</td>
+          <td>${entry.recent ? '<span class="dot"></span>' : ''}</td>
+          <td><button class="delete-btn" onclick="deleteMood(${index})">Delete</button></td>
+        `;
+          moodTableBody.appendChild(row);
+        });
+      }
+
+      function addMood(username, mood) {
+        // Set all existing entries for the user to not recent
+        moodData.forEach((entry) => {
+          if (entry.username === username) {
+            entry.recent = false;
+          }
+        });
+
+        // Add the new mood with recent flag
+        moodData.push({ username, mood, recent: true });
+        saveToLocalStorage();
+        renderTable();
+        Swal.fire({
+          icon: 'success',
+          title: 'Mood Added',
+          text: `${username}'s mood (${mood}) has been added.`,
+        });
+      }
+
+      function deleteMood(index) {
+        const deletedMood = moodData[index];
+        moodData.splice(index, 1);
+        saveToLocalStorage();
+        renderTable();
+        Swal.fire({
+          icon: 'info',
+          title: 'Mood Deleted',
+          text: `Mood (${deletedMood.mood}) for ${deletedMood.username} has been removed.`,
+        });
+      }
+
+      // Form submission handler
+      moodForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = usernameInput.value.trim();
+        const mood = moodInput.value;
+        if (username && mood) {
+          addMood(username, mood);
+          usernameInput.value = '';
+          moodInput.value = '';
+        }
+      });
+
+      // Initial render
+      renderTable();
+    </script>
+    <footer>
+      <p>© 2025 Daily Dot by YB. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
