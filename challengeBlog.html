@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Challenge Blog</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            width: 100%;
+            padding: 0;
+            line-height: 1.6;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 1s ease-in-out;
+        }
+
+        header {
+            background: rgb(44, 42, 43);
+            color: #fff;
+            padding: 10px;
+            display: flex; /* Use Flexbox */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Space out title and G5 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .heading {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .title {
+            text-align: left; /* Ensure title stays on the left */
+        }
+
+        .logo {
+            text-align: right; /* Position G5 to the right */
+            font-weight: bold; /* Optional: emphasize G5 */
+        }
+
+
+        .description {
+            margin: 30px auto;
+            max-width: 800px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #333;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+        }
+
+
+        .members_section {
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .members_section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .member {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .member img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .member .review {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .comments_section {
+            color: #333;
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* This ensures the elements stack vertically */
+        }
+
+        #commentInput {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px; /* Add some space between the input field and button */
+            resize: vertical; /* Allow the user to resize the text area vertically */
+        }
+
+        #addCommentBtn {
+            padding: 10px 20px;
+            background-color: rgba(1, 40, 92, 0.7); /* Green background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #addCommentBtn:hover {
+            background-color: rgb(44, 42, 43);
+        }
+
+        .comments_list {
+            margin-top: 20px;
+            padding: 0;
+            list-style: none;
+        }
+
+
+        footer {
+            width: 100%;
+            margin-top: auto;
+            padding: 10px 0;
+            background: rgb(44, 42, 43);
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.9rem;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="heading title">Group Wars: A Tale of Team Spirit</h1>
+        <h1 class="heading grp">G5</h1>
+    </header>
+
+    <div class="description">
+        <h2>A blog dedicated to teamwork, talent, and triumph</h2>
+       <p> Welcome to our challenge blog! This competition, held in the lab between Group 5 and Group 6, was a dynamic and skill-driven event. Both teams demonstrated exceptional technical proficiency and collaborative efficiency, making it an engaging and competitive experience.
+    </p>
+    </div>
+
+        <div class="members_section">
+            <h2>-- Our Members and their Thoughts --</h2>
+            <div id="reviewsContainer">
+                <!-- Reviews will be loaded here -->
+            </div>
+        </div>
+        
+
+    <div class="comments_section">
+        <h2>Leave a Comment</h2>
+        <textarea id="commentInput" placeholder="Write your comment here..."></textarea>
+        <button id="addCommentBtn">Post Comment</button>
+        <div class="comments_list" id="commentsList">
+            <!-- Comments will appear here -->
+        </div>
+    </div>
+
+    <footer>
+        © 2025 Group Challenge Blog | Designed with Love
+    </footer>
+
+    <script>
+        const reviewsContainer = document.getElementById('reviewsContainer');
+    
+        // Fetch the content of review.html
+        fetch('review.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load reviews');
+                }
+                return response.text(); // Get the content as text
+            })
+            .then(data => {
+                reviewsContainer.innerHTML = data; // Insert the HTML into the container
+    
+                const reviews = document.querySelectorAll('.review_slide');
+                const prevBtn = document.querySelector('.prev_btn');
+                const nextBtn = document.querySelector('.next_btn');
+                
+                let currentIndex = 0;
+                let autoSlideInterval;
+    
+                function showReview(index) {
+                    reviewsContainer.querySelector('.reviews_container').style.transform = `translateX(-${index * 100}%)`;
+                }
+    
+                // Function to start the auto-slide interval
+                function startAutoSlide() {
+                    clearInterval(autoSlideInterval); // Clear any existing interval
+                    autoSlideInterval = setInterval(() => {
+                        currentIndex = (currentIndex + 1) % reviews.length;
+                        showReview(currentIndex);
+                    }, 5000); // Auto-slide every 5 seconds
+                }
+    
+                // Handle next button
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % reviews.length;
+                    showReview(currentIndex);
+                    clearInterval(autoSlideInterval); // Clear the previous interval
+                    setTimeout(startAutoSlide, 0); // Reset the 5-second timer immediately after clicking
+                });
+    
+                // Handle previous button
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + reviews.length) % reviews.length;
+                    showReview(currentIndex);
+                    clearInterval(autoSlideInterval); // Clear the previous interval
+                    setTimeout(startAutoSlide, 0); // Reset the 5-second timer immediately after clicking
+                });
+    
+                // Initialize first review and start auto-slide
+                showReview(currentIndex);
+                startAutoSlide(); // Start the timer immediately when the page loads
+            })
+            .catch(error => {
+                reviewsContainer.innerHTML = `<p style="color: red;">Error loading reviews: ${error.message}</p>`;
+            });
+    
+        // Slideshow for background
+        const images = [
+            'assets/pic1.jpg',
+            'assets/pic2.jpg',
+            'assets/pic3.jpg',
+            'assets/pic4.jpg',
+            'assets/pic5.jpg',
+            'assets/pic6.jpg',
+        ];
+        let currentImageIndex = 0;
+
+        function changeBackground() {
+            document.body.style.backgroundImage = `url(${images[currentImageIndex]})`;
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+        }
+        document.body.style.backgroundImage = `url(${images[0]})`;
+
+        setInterval(changeBackground, 3000); // Change every 3 seconds
+
+        // Comment functionality
+        const addCommentBtn = document.getElementById('addCommentBtn');
+        const commentInput = document.getElementById('commentInput');
+        const commentsList = document.getElementById('commentsList');
+
+        addCommentBtn.addEventListener('click', () => {
+            const commentText = commentInput.value.trim();
+
+            if (commentText) {
+                const commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+                commentDiv.textContent = commentText;
+                commentsList.appendChild(commentDiv);
+
+                commentInput.value = ''; // Clear input field
+            }
+        });
+    </script>
+</body>
+
+</html>
