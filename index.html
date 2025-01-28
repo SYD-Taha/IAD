@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weekly Navigation</title>
+    <title>Group-5</title>
+
     <style>
+        /* Header Styling */
+        header {
+            width: 100%;
+            background-color: #ffffff;
+            color: rgb(145, 220, 255);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        /* Body Styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -14,7 +37,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding-top: 60px; /* Added padding to avoid overlap with the fixed header */
         }
 
         h1 {
@@ -40,13 +64,36 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        /* Footer Styling */
+        footer {
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+            color: #444;
+            text-align: center;
+            padding: 5px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Welcome to Weekly Navigation</h1>
+    <header>
+        <h1>A-G5 Presents...</h1>
+    </header>
+    
+    <h1>Welcome to Group-5 Weekly Site</h1>
     <div class="button-container">
-        <button onclick="location.href='daily-dot.html'">Week-1</button>
-        <button onclick="location.href='challengeBlog.html'">Week-2</button>
+        <button onclick="location.href='daily-dot.html'">Week-3</button>
+        <button onclick="location.href='challengeBlog.html'">Week-4</button>
     </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Group-5. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
