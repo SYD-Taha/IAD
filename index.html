@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +39,8 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding-top: 60px; /* Added padding to avoid overlap with the fixed header */
+            padding-top: 60px;
+            /* Added padding to avoid overlap with the fixed header */
         }
 
         h1 {
@@ -49,20 +51,74 @@
             margin-top: 20px;
         }
 
-        button {
-            background-color: #007bff;
+        .glow-button {
+            position: relative;
+            padding: 15px 40px;
+            font-size: 18px;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 1rem;
-            border-radius: 5px;
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            border: 2px solid rgba(255, 255, 255, 0);
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            outline: none;
+            overflow: hidden;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+            margin: 10px;
+            /* Add margin between buttons */
         }
 
-        button:hover {
-            background-color: #0056b3;
+        .glowing-light {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 120, 255, 1) 10%, rgba(0, 120, 255, 0.6) 40%, rgba(0, 120, 255, 0) 80%);
+            box-shadow: 0 0 20px rgba(0, 120, 255, 0.8);
+
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .glow-button:hover .glowing-light {
+            opacity: 1;
+            animation: moveLight 3.5s linear infinite;
+        }
+
+        @keyframes moveLight {
+            0% {
+                top: -10px;
+                /* Above the button */
+                left: -10px;
+                /* Left edge */
+            }
+
+            35% {
+                top: -10px;
+                /* Above the button */
+                left: calc(100% - 10px);
+                /* Right edge */
+            }
+
+            50% {
+                top: calc(100% - 10px);
+                /* Below the button */
+                left: calc(100% - 10px);
+                /* Right edge */
+            }
+
+            85% {
+                top: calc(100% - 10px);
+                /* Below the button */
+                left: -10px;
+                /* Left edge */
+            }
+
+            100% {
+                top: -10px;
+                /* Above the button */
+                left: -10px;
+                /* Left edge */
+            }
         }
 
         /* Footer Styling */
@@ -77,18 +133,24 @@
             bottom: 0;
             left: 0;
         }
-
     </style>
 </head>
+
 <body>
     <header>
         <h1>A-G5 Presents...</h1>
     </header>
-    
+
     <h1>Welcome to Group-5 Weekly Site</h1>
     <div class="button-container">
-        <button onclick="location.href='daily-dot.html'">Week-3</button>
-        <button onclick="location.href='challengeBlog.html'">Week-4</button>
+        <button class="glow-button" onclick="location.href='daily-dot.html'">
+            Week-3
+            <div class="glowing-light"></div>
+        </button>
+        <button class="glow-button" onclick="location.href='challengeBlog.html'">
+            Week-4
+            <div class="glowing-light"></div>
+        </button>
     </div>
 
     <!-- Footer Section -->
@@ -96,4 +158,5 @@
         <p>&copy; 2025 Group-5. All Rights Reserved.</p>
     </footer>
 </body>
+
 </html>
