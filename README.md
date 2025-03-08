@@ -1,3 +1,3 @@
 # IAD Weekly Development Site
 
-[Edit in StackBlitz next generation editor ⚡️](https://stackblitz.com/~/github.com/SYD-Taha/MoodTracker)
+Weekly Exercises and sites developed in the Internet Application Development course
